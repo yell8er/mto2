@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import './screens/objects_screen.dart';
-import './screens/service_requests_screen.dart';
+import 'package:intl/date_symbol_data_local.dart';
+
+// import './screens/objects_screen.dart';
+// import './screens/service_requests_screen.dart';
 import './screens/tabs_screen.dart';
 import './helpers/material_color_creator.dart';
+// import 'package:intl/intl.dart';
 
 void main() {
-  runApp(MyApp());
+  initializeDateFormatting().then((_) => runApp(MyApp()));
 }
-
-// var currentDate = DateTime.now().day.toString() + "  May";
 
 class MyApp extends StatelessWidget {
   void selectedPage(BuildContext ctx) {
@@ -18,9 +19,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: createMaterialColor(Color(0xFF2F4F4F)),
+        primarySwatch: createMaterialColor(Color(0xFF00622D)),
         //0xFF007200-main
         //0xFF007A00
         //0xFF217b43
@@ -33,7 +33,6 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (ctx) => TabsScreen(),
-        '/objects': (ctx) => ObjectsScreen(),
       },
     );
   }

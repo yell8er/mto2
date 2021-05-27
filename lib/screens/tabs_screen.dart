@@ -32,43 +32,62 @@ class _TabsScreenState extends State<TabsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(13),
+            bottomRight: Radius.circular(13),
+          ),
+        ),
+        elevation: 25,
+        shadowColor: Theme.of(context).accentColor,
         title: Text(_pages[_selectedPageIndex]['title']),
       ),
       drawer: MainDrawer(),
       body: _pages[_selectedPageIndex]['page'],
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        onTap: _selectPage,
-        backgroundColor: Theme.of(context).primaryColor,
-        selectedItemColor: Colors.white70,
-        unselectedItemColor: Colors.black,
-        iconSize: 32,
-        currentIndex: _selectedPageIndex,
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(
-                Icons.house_rounded /*water_damage_outlined, house_rounded*/),
-            label: 'Главная',
-            backgroundColor: Theme.of(context).primaryColor,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons
-                .local_fire_department /*assignment_outlined, fact_check_rounded, whatshot, local_fire_department, fireplace_rounded*/),
-            label: 'Заявки',
-            backgroundColor: Theme.of(context).primaryColor,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-                Icons.history_edu_rounded /*history//history_edu_rounded*/),
-            label: 'История',
-            backgroundColor: Theme.of(context).primaryColor,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.business_rounded /*location_city_rounded*/),
-            label: 'Объекты',
-            backgroundColor: Theme.of(context).primaryColor,
-          ),
-        ],
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+              color: Colors.black,
+              blurRadius: 13.0,
+              // offset: Offset(0.0, 1),
+            )
+          ],
+        ),
+        child: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          onTap: _selectPage,
+          backgroundColor: Theme.of(context).primaryColor,
+          selectedItemColor: Colors.white70,
+          unselectedItemColor: Colors.black,
+          iconSize: 32,
+          currentIndex: _selectedPageIndex,
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(
+                  Icons.house_rounded /*water_damage_outlined, house_rounded*/),
+              label: 'Главная',
+              backgroundColor: Theme.of(context).primaryColor,
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons
+                  .local_fire_department /*assignment_outlined, fact_check_rounded, whatshot, local_fire_department, fireplace_rounded*/),
+              label: 'Заявки',
+              backgroundColor: Theme.of(context).primaryColor,
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                  Icons.history_edu_rounded /*history//history_edu_rounded*/),
+              label: 'История',
+              backgroundColor: Theme.of(context).primaryColor,
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.business_rounded /*location_city_rounded*/),
+              label: 'Объекты',
+              backgroundColor: Theme.of(context).primaryColor,
+            ),
+          ],
+        ),
       ),
     );
   }

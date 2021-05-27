@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "416697722601",
+    "project_id": "yell8er-mto",
+    "storage_bucket": "yell8er-mto.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:416697722601:android:a5673ce6628cb1997cf278",
+        "android_client_info": {
+          "package_name": "com.yell8er.mto"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "416697722601-fh3d6nnugd0tamodevs94r4m52fjojcg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCrpGR5_TFIftzceMtlasEw9Q81Qcoiz5Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "416697722601-fh3d6nnugd0tamodevs94r4m52fjojcg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
