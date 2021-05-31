@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 
 import 'package:table_calendar/table_calendar.dart';
 import '../models/task.dart';
+import '../widgets/main_drawer.dart';
 
 // import '../widgets/calendar.dart';
 
@@ -40,6 +41,18 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(13),
+            bottomRight: Radius.circular(13),
+          ),
+        ),
+        elevation: 25,
+        shadowColor: Theme.of(context).accentColor,
+        title: Text('Главная'),
+      ),
+      drawer: MainDrawer(),
       backgroundColor: Colors.grey[200],
       body: SingleChildScrollView(
         child: Column(

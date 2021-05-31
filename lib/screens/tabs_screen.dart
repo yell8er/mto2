@@ -5,7 +5,7 @@ import './service_requests_screen.dart';
 import './history_screen.dart';
 import './objects_screen.dart';
 
-import '../widgets/main_drawer.dart';
+// import '../widgets/main_drawer.dart';
 
 class TabsScreen extends StatefulWidget {
   @override
@@ -31,18 +31,18 @@ class _TabsScreenState extends State<TabsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(13),
-            bottomRight: Radius.circular(13),
-          ),
-        ),
-        elevation: 25,
-        shadowColor: Theme.of(context).accentColor,
-        title: Text(_pages[_selectedPageIndex]['title']),
-      ),
-      drawer: MainDrawer(),
+      // appBar: AppBar(
+      //   shape: RoundedRectangleBorder(
+      //     borderRadius: BorderRadius.only(
+      //       bottomLeft: Radius.circular(13),
+      //       bottomRight: Radius.circular(13),
+      //     ),
+      //   ),
+      //   elevation: 25,
+      //   shadowColor: Theme.of(context).accentColor,
+      //   title: Text(_pages[_selectedPageIndex]['title']),
+      // ),
+      // drawer: MainDrawer(),
       body: _pages[_selectedPageIndex]['page'],
       bottomNavigationBar: Container(
         decoration: BoxDecoration(

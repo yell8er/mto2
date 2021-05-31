@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 // import './screens/objects_screen.dart';
 // import './screens/service_requests_screen.dart';
@@ -7,7 +8,11 @@ import './screens/tabs_screen.dart';
 import './helpers/material_color_creator.dart';
 // import 'package:intl/intl.dart';
 
-void main() {
+import './screens/add_object_screen.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   initializeDateFormatting().then((_) => runApp(MyApp()));
 }
 
@@ -33,6 +38,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (ctx) => TabsScreen(),
+        '/add-object': (ctx) => AddObject(),
       },
     );
   }
