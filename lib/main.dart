@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 // import './screens/objects_screen.dart';
 // import './screens/service_requests_screen.dart';
 import './screens/tabs_screen.dart';
+import './screens/auth_screen.dart';
 import './helpers/material_color_creator.dart';
 // import 'package:intl/intl.dart';
 
@@ -34,10 +35,10 @@ class MyApp extends StatelessWidget {
         //0xFF00622D
         //0xFFEF7E2F -orange
       ),
-      // home: MyHomePage(title: '$currentDate'),
+      // home: AuthScreen(),
       initialRoute: '/',
       routes: {
-        '/': (ctx) => TabsScreen(),
+        '/': (ctx) => AuthScreen(),
         '/add-object': (ctx) => AddObject(),
       },
     );
