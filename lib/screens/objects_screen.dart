@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../widgets/main_drawer.dart';
 import '../providers/objects_provider.dart';
 import '../screens/add_object_screen.dart';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
+import '../widgets/object_item_field.dart';
 
 class ObjectsScreen extends StatefulWidget {
   const ObjectsScreen({Key key}) : super(key: key);
@@ -45,24 +45,30 @@ class _ObjectsScreenState extends State<ObjectsScreen> {
         ),
         drawer: MainDrawer(),
         body: StreamBuilder(
-          stream: FirebaseFirestore.instance.collection('objects').snapshots(),
+          stream: FirebaseFirestore.instance
+              .collection('objects')
+              .orderBy('createdTime')
+              .snapshots(),
           builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
             if (streamSnapshot.connectionState == ConnectionState.waiting) {
               return Center(
                 child: CircularProgressIndicator(),
               );
             }
-            return ListView.builder(
-                itemCount: streamSnapshot.data.docs.length,
-                itemBuilder: (ctx, index) {
-                  return Container(
-                    padding: EdgeInsets.all(10),
-                    child: Text(streamSnapshot.data.docs[index]['address']),
-                  );
-                });
+            return Container(
+              padding: EdgeInsets.only(top: 7),
+              child: ListView.builder(
+                  itemCount: streamSnapshot.data.docs.length,
+                  itemBuilder: (ctx, index) {
+                    return ObjectItemField(
+                        streamSnapshot.data.docs[index]['address']);
+                  }),
+            );
           },
         ),
       ),
     );
   }
 }
+
+// Text(streamSnapshot.data.docs[index]['address'])

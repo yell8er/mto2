@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AddObject extends StatefulWidget {
   static const routeName = '/add-object';
@@ -9,6 +10,8 @@ class AddObject extends StatefulWidget {
 
 class _AddObjectState extends State<AddObject> {
   final _titleController = TextEditingController();
+  final _contactsController = TextEditingController();
+  final _notesController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -29,17 +32,32 @@ class _AddObjectState extends State<AddObject> {
                       decoration: InputDecoration(labelText: 'Адрес'),
                       controller: _titleController,
                     ),
-                    TextField(),
-                    TextField(),
+                    TextField(
+                      decoration: InputDecoration(labelText: 'Контакты'),
+                      controller: _contactsController,
+                    ),
+                    TextField(
+                      decoration: InputDecoration(labelText: 'Заметки'),
+                      controller: _notesController,
+                    ),
                   ],
                 ),
               ),
             ),
           ),
           ElevatedButton.icon(
-            onPressed: () {},
-            icon: Icon(Icons.add),
-            label: Text('Добавить объект'),
+            onPressed: () {
+              FirebaseFirestore.instance.collection('objects').add({
+                'address': _titleController.text.trim(),
+                'contacts': _contactsController.text.trim(),
+                'notes': _notesController.text.trim(),
+                'createdTime': Timestamp.now(),
+                'to': false,
+              });
+              Navigator.of(context).pop();
+            },
+            icon: Icon(Icons.check),
+            label: Text('Сохранить'),
           )
         ],
       ),

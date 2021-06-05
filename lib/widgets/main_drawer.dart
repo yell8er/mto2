@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class MainDrawer extends StatelessWidget {
   @override
@@ -13,7 +14,7 @@ class MainDrawer extends StatelessWidget {
             alignment: Alignment.centerLeft,
             color: Theme.of(context).accentColor,
             child: Text(
-              'Меню',
+              'Эльтон',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
             ),
           ),
@@ -23,6 +24,9 @@ class MainDrawer extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.logout),
             title: Text('Выход'),
+            onTap: () {
+              FirebaseAuth.instance.signOut();
+            },
           )
         ],
       ),

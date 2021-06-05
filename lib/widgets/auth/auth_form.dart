@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
 class AuthForm extends StatefulWidget {
-  AuthForm(this.submitFn);
+  AuthForm(
+    this.submitFn,
+    this.isLoading,
+  );
+  final bool isLoading;
   final void Function(
     String email,
     String password,
@@ -28,8 +32,8 @@ class _AuthFormState extends State<AuthForm> {
       _formKey.currentState.save();
       widget.submitFn(
         _userEmail.trim(),
-        _userName.trim(),
         _userPassword.trim(),
+        _userName.trim(),
         _isLogin,
         // context,
       );
@@ -92,27 +96,29 @@ class _AuthFormState extends State<AuthForm> {
                       _userPassword = value;
                     },
                   ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  ElevatedButton(
-                    onPressed: _trySubmit,
-                    child: Text(_isLogin ? 'Войти' : 'Регистрация'),
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+                  SizedBox(height: 20),
+                  if (widget.isLoading) CircularProgressIndicator(),
+                  if (!widget.isLoading)
+                    ElevatedButton(
+                      onPressed: _trySubmit,
+                      child: Text(_isLogin ? 'Войти' : 'Регистрация'),
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                       ),
                     ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      setState(() {
-                        _isLogin = !_isLogin;
-                      });
-                    },
-                    child: Text(
-                        _isLogin ? 'Создать аккаунт' : 'У меня есть аккаунт'),
-                  ),
+                  if (!widget.isLoading)
+                    TextButton(
+                      child: Text(
+                        _isLogin ? 'Создать аккаунт' : 'У меня есть аккаунт',
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _isLogin = !_isLogin;
+                        });
+                      },
+                    ),
                 ],
               ),
             ),

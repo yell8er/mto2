@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 // import './screens/objects_screen.dart';
 // import './screens/service_requests_screen.dart';
@@ -38,7 +39,15 @@ class MyApp extends StatelessWidget {
       // home: AuthScreen(),
       initialRoute: '/',
       routes: {
-        '/': (ctx) => AuthScreen(),
+        '/': (ctx) => StreamBuilder(
+              stream: FirebaseAuth.instance.authStateChanges(),
+              builder: (ctx, userSnapshot) {
+                if (userSnapshot.hasData) {
+                  return TabsScreen();
+                }
+                return AuthScreen();
+              },
+            ),
         '/add-object': (ctx) => AddObject(),
       },
     );
