@@ -17,10 +17,7 @@ class ObjectsScreen extends StatefulWidget {
 class _ObjectsScreenState extends State<ObjectsScreen> {
   @override
   Widget build(BuildContext context) {
-    // CollectionReference objects =
-    //     FirebaseFirestore.instance.collection('objects');
-    //     Stream collectionStream = FirebaseFirestore.instance.collection('objects').snapshots();
-    // var pathAddr = '/objects/kadQZ4uhkO2FoNuRuSfE/address';
+
 
     return ChangeNotifierProvider.value(
       value: ObjectProvider(),
@@ -65,6 +62,9 @@ class _ObjectsScreenState extends State<ObjectsScreen> {
                       streamSnapshot.data.docs[index]['address'],
                       streamSnapshot.data.docs[index]['isMonthlyService'],
                       streamSnapshot.data.docs[index]['isQuarterlyService'],
+                      streamSnapshot.data.docs[index]['isJournal'],
+                      streamSnapshot.data.docs[index]['isAct'],
+                      streamSnapshot.data.docs[index]['malfunctions'],
                     );
                   }),
             );

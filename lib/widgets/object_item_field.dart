@@ -8,20 +8,67 @@ class ObjectItemField extends StatefulWidget {
     this.address,
     this.isMonthlyService,
     this.isQuarterlyService,
+    this.isJournal,
+    this.isAct,
+    this.malfunctions,
   );
   final String id;
   final String address;
   bool isMonthlyService;
   bool isQuarterlyService;
+  bool isJournal;
+  bool isAct;
+  String malfunctions;
+  bool isOpen = false;
 
   @override
   _ObjectItemFieldState createState() => _ObjectItemFieldState();
 }
 
 class _ObjectItemFieldState extends State<ObjectItemField> {
-  // FirebaseFirestore.instance.collection('objects').doc(id)['isQuarterlyService'];
+  var _addressController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
+    _addressController.text = widget.address;
+
+    if (widget.isOpen) {
+      return
+          // Expanded(
+          // child:
+          SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.all(15),
+          child: Column(children: [
+            TextField(
+              decoration: InputDecoration(
+                labelText: 'Адрес',
+                border: OutlineInputBorder(),
+              ),
+              controller: _addressController,
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            TextButton(
+              onPressed: () {
+                FirebaseFirestore.instance
+                    .collection('objects')
+                    .doc(widget.id)
+                    .update({
+                  'address': _addressController.text,
+                });
+                setState(() {
+                  widget.isOpen = false;
+                });
+              },
+              child: Text('Сохранить'),
+            ),
+          ]),
+        ),
+        // ),
+      );
+    }
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -46,16 +93,23 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
         horizontal: 5,
       ),
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-        Container(
-          // decoration: BoxDecoration(border: Border.all(width: 2)),
-          width: MediaQuery.of(context).size.width * 0.5,
-          alignment: Alignment.centerLeft,
-          child: Text(
-            widget.address,
-            style: TextStyle(
-              fontWeight: FontWeight.w400,
-              fontSize: 20,
-              // letterSpacing: 1,
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              widget.isOpen = true;
+            });
+          },
+          child: Container(
+            // decoration: BoxDecoration(border: Border.all(width: 2)),
+            width: MediaQuery.of(context).size.width * 0.5,
+            alignment: Alignment.centerLeft,
+            child: Text(
+              widget.address,
+              style: TextStyle(
+                fontWeight: FontWeight.w400,
+                fontSize: 20,
+                // letterSpacing: 1,
+              ),
             ),
           ),
         ),
@@ -72,7 +126,7 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
                           borderRadius: BorderRadius.circular(30),
                         ),
                         child: Padding(
-                          padding: EdgeInsets.all(40),
+                          padding: EdgeInsets.all(20),
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -84,8 +138,7 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
                               ),
                               SizedBox(height: 50),
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Checkbox(
                                       value: widget.isMonthlyService,
@@ -98,15 +151,24 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
                                     'TO',
                                     style: TextStyle(fontSize: 20),
                                   ),
+                                  SizedBox(
+                                    width: 25,
+                                  ),
+                                  Checkbox(
+                                      value: widget.isJournal,
+                                      onChanged: (bool value) {
+                                        setState(() {
+                                          widget.isJournal = value;
+                                        });
+                                      }),
                                   Text(
                                     'Журнал подписан',
-                                    style: TextStyle(fontSize: 20),
+                                    style: TextStyle(fontSize: 18),
                                   ),
                                 ],
                               ),
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Checkbox(
                                       value: widget.isQuarterlyService,
@@ -119,13 +181,21 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
                                     'КВTO',
                                     style: TextStyle(fontSize: 20),
                                   ),
+                                  Checkbox(
+                                      value: widget.isAct,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          widget.isAct = value;
+                                        });
+                                      }),
                                   Text(
                                     'Акт подписан',
-                                    style: TextStyle(fontSize: 20),
+                                    style: TextStyle(fontSize: 18),
                                   ),
                                 ],
                               ),
                               Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   ElevatedButton(
                                     onPressed: () {
@@ -137,6 +207,8 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
                                             widget.isMonthlyService,
                                         'isQuarterlyService':
                                             widget.isQuarterlyService,
+                                        'isJournal': widget.isJournal,
+                                        'isAct': widget.isAct,
                                       });
 
                                       Navigator.of(context).pop();
@@ -179,10 +251,15 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
           ),
         ),
         IconButton(
-          icon: Icon(Icons.warning_rounded),
+          icon: widget.malfunctions.isNotEmpty
+              ? Icon(Icons.warning_rounded)
+              : SizedBox(
+                  width: 1,
+                  height: 1,
+                ),
           onPressed: () {},
           color: Colors.orange[900],
-        )
+        ),
       ]),
     );
   }

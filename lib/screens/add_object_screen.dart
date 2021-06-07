@@ -16,15 +16,6 @@ class _AddObjectState extends State<AddObject> {
   var _passwordsController = TextEditingController();
   var _malfunctionsController = TextEditingController();
   var _notesController = TextEditingController();
-  // final _contactsController = TextEditingController();
-  // final _notesController = TextEditingController();
-  // TextEditingController _addressController;
-  // TextEditingController _servicedPartsController;
-  // TextEditingController _contactsController;
-  // TextEditingController _specificationController;
-  // TextEditingController _passwordsController;
-  // TextEditingController _malfunctionsController;
-  // TextEditingController _notesController;
 
   @override
   Widget build(BuildContext context) {
