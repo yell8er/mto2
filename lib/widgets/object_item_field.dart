@@ -6,19 +6,30 @@ class ObjectItemField extends StatefulWidget {
   ObjectItemField(
     this.id,
     this.address,
+    this.servicedParts,
+    this.contacts,
+    this.specification,
+    this.passwords,
+    this.malfunctions,
+    this.notes,
     this.isMonthlyService,
     this.isQuarterlyService,
     this.isJournal,
     this.isAct,
-    this.malfunctions,
   );
   final String id;
   final String address;
+  final String servicedParts;
+  final String contacts;
+  final String specification;
+  final String passwords;
+  final String malfunctions;
+  final String notes;
+
   bool isMonthlyService;
   bool isQuarterlyService;
   bool isJournal;
   bool isAct;
-  String malfunctions;
   bool isOpen = false;
 
   @override
@@ -27,15 +38,27 @@ class ObjectItemField extends StatefulWidget {
 
 class _ObjectItemFieldState extends State<ObjectItemField> {
   var _addressController = TextEditingController();
+  var _servicedPartsController = TextEditingController();
+  var _contactsController = TextEditingController();
+  var _specificationController = TextEditingController();
+  var _passwordsController = TextEditingController();
+  var _malfunctionsController = TextEditingController();
+  var _notesController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     _addressController.text = widget.address;
+    _servicedPartsController.text = widget.servicedParts;
+    _contactsController.text = widget.contacts;
+    _specificationController.text = widget.specification;
+    _passwordsController.text = widget.passwords;
+    _malfunctionsController.text = widget.malfunctions;
+    _notesController.text = widget.notes;
 
     if (widget.isOpen) {
       return
           // Expanded(
-          // child:
+          //   child:
           SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(15),
@@ -50,6 +73,18 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
             SizedBox(
               height: 20,
             ),
+            TextField(
+              minLines: 1,
+              maxLines: 3,
+              decoration: InputDecoration(
+                labelText: 'Обслуживаемые части и системы',
+                border: OutlineInputBorder(),
+              ),
+              controller: _servicedPartsController,
+            ),
+            SizedBox(
+              height: 20,
+            ),
             TextButton(
               onPressed: () {
                 FirebaseFirestore.instance
@@ -57,6 +92,12 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
                     .doc(widget.id)
                     .update({
                   'address': _addressController.text,
+                  'servicedParts': _servicedPartsController.text,
+                  'contacts': _contactsController.text,
+                  'specification': _specificationController.text,
+                  'passwords': _passwordsController.text,
+                  'malfunctions': _malfunctionsController.text,
+                  'notes': _notesController.text,
                 });
                 setState(() {
                   widget.isOpen = false;
@@ -64,11 +105,64 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
               },
               child: Text('Сохранить'),
             ),
+            TextField(
+              minLines: 1,
+              maxLines: 3,
+              decoration: InputDecoration(
+                labelText: 'Контакты',
+                border: OutlineInputBorder(),
+              ),
+              controller: _contactsController,
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            TextField(
+              decoration: InputDecoration(
+                labelText: 'Оборудование и спецификация',
+                border: OutlineInputBorder(),
+              ),
+              controller: _specificationController,
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            TextField(
+              decoration: InputDecoration(
+                labelText: 'Пароли',
+                border: OutlineInputBorder(),
+              ),
+              controller: _passwordsController,
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            TextField(
+              decoration: InputDecoration(
+                labelText: 'Неисправности',
+                border: OutlineInputBorder(),
+              ),
+              controller: _malfunctionsController,
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            TextField(
+              decoration: InputDecoration(
+                labelText: 'Примечание',
+                border: OutlineInputBorder(),
+              ),
+              controller: _notesController,
+            ),
+            SizedBox(
+              height: 20,
+            ),
           ]),
         ),
         // ),
       );
     }
+
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,

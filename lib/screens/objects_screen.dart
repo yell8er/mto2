@@ -17,8 +17,6 @@ class ObjectsScreen extends StatefulWidget {
 class _ObjectsScreenState extends State<ObjectsScreen> {
   @override
   Widget build(BuildContext context) {
-
-
     return ChangeNotifierProvider.value(
       value: ObjectProvider(),
       child: Scaffold(
@@ -60,11 +58,16 @@ class _ObjectsScreenState extends State<ObjectsScreen> {
                     return ObjectItemField(
                       streamSnapshot.data.docs[index].id,
                       streamSnapshot.data.docs[index]['address'],
+                      streamSnapshot.data.docs[index]['servicedParts'],
+                      streamSnapshot.data.docs[index]['contacts'],
+                      streamSnapshot.data.docs[index]['specification'],
+                      streamSnapshot.data.docs[index]['passwords'],
+                      streamSnapshot.data.docs[index]['malfunctions'],
+                      streamSnapshot.data.docs[index]['notes'],
                       streamSnapshot.data.docs[index]['isMonthlyService'],
                       streamSnapshot.data.docs[index]['isQuarterlyService'],
                       streamSnapshot.data.docs[index]['isJournal'],
                       streamSnapshot.data.docs[index]['isAct'],
-                      streamSnapshot.data.docs[index]['malfunctions'],
                     );
                   }),
             );
