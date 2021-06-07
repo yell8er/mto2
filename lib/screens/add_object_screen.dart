@@ -9,15 +9,28 @@ class AddObject extends StatefulWidget {
 }
 
 class _AddObjectState extends State<AddObject> {
-  final _titleController = TextEditingController();
-  final _contactsController = TextEditingController();
-  final _notesController = TextEditingController();
+  var _addressController = TextEditingController();
+  var _servicedPartsController = TextEditingController();
+  var _contactsController = TextEditingController();
+  var _specificationController = TextEditingController();
+  var _passwordsController = TextEditingController();
+  var _malfunctionsController = TextEditingController();
+  var _notesController = TextEditingController();
+  // final _contactsController = TextEditingController();
+  // final _notesController = TextEditingController();
+  // TextEditingController _addressController;
+  // TextEditingController _servicedPartsController;
+  // TextEditingController _contactsController;
+  // TextEditingController _specificationController;
+  // TextEditingController _passwordsController;
+  // TextEditingController _malfunctionsController;
+  // TextEditingController _notesController;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Карточка объекта'),
+        title: Text('Добавить объект'),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -29,16 +42,78 @@ class _AddObjectState extends State<AddObject> {
                 child: Column(
                   children: [
                     TextField(
-                      decoration: InputDecoration(labelText: 'Адрес'),
-                      controller: _titleController,
+                      decoration: InputDecoration(
+                        labelText: 'Адрес',
+                        border: OutlineInputBorder(),
+                      ),
+                      controller: _addressController,
+                    ),
+                    SizedBox(
+                      height: 20,
                     ),
                     TextField(
-                      decoration: InputDecoration(labelText: 'Контакты'),
+                      minLines: 1,
+                      maxLines: 3,
+                      decoration: InputDecoration(
+                        labelText: 'Обслуживаемые части и системы',
+                        border: OutlineInputBorder(),
+                      ),
+                      controller: _servicedPartsController,
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    TextField(
+                      minLines: 1,
+                      maxLines: 3,
+                      decoration: InputDecoration(
+                        labelText: 'Контакты',
+                        border: OutlineInputBorder(),
+                      ),
                       controller: _contactsController,
                     ),
+                    SizedBox(
+                      height: 20,
+                    ),
                     TextField(
-                      decoration: InputDecoration(labelText: 'Заметки'),
+                      decoration: InputDecoration(
+                        labelText: 'Оборудование и спецификация',
+                        border: OutlineInputBorder(),
+                      ),
+                      controller: _specificationController,
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    TextField(
+                      decoration: InputDecoration(
+                        labelText: 'Пароли',
+                        border: OutlineInputBorder(),
+                      ),
+                      controller: _passwordsController,
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    TextField(
+                      decoration: InputDecoration(
+                        labelText: 'Неисправности',
+                        border: OutlineInputBorder(),
+                      ),
+                      controller: _malfunctionsController,
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    TextField(
+                      decoration: InputDecoration(
+                        labelText: 'Примечание',
+                        border: OutlineInputBorder(),
+                      ),
                       controller: _notesController,
+                    ),
+                    SizedBox(
+                      height: 20,
                     ),
                   ],
                 ),
@@ -48,17 +123,25 @@ class _AddObjectState extends State<AddObject> {
           ElevatedButton.icon(
             onPressed: () {
               FirebaseFirestore.instance.collection('objects').add({
-                'address': _titleController.text.trim(),
-                'contacts': _contactsController.text.trim(),
-                'notes': _notesController.text.trim(),
-                'createdTime': Timestamp.now(),
-                'to': false,
+                'address': _addressController.text,
+                'servicedParts': _servicedPartsController.text,
+                'contacts': _contactsController.text,
+                'specification': _specificationController.text,
+                'passwords': _passwordsController.text,
+                'malfunctions': _malfunctionsController.text,
+                'notes': _notesController.text,
+
+                // 'serviceDate': '',
+                'isMonthlyService': false,
+                'isQuarterlyService': false,
+                'isAct': false,
+                'isJournal': false,
               });
               Navigator.of(context).pop();
             },
             icon: Icon(Icons.check),
             label: Text('Сохранить'),
-          )
+          ),
         ],
       ),
     );

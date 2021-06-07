@@ -47,7 +47,7 @@ class _ObjectsScreenState extends State<ObjectsScreen> {
         body: StreamBuilder(
           stream: FirebaseFirestore.instance
               .collection('objects')
-              .orderBy('createdTime')
+              .orderBy('address')
               .snapshots(),
           builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
             if (streamSnapshot.connectionState == ConnectionState.waiting) {
@@ -61,7 +61,11 @@ class _ObjectsScreenState extends State<ObjectsScreen> {
                   itemCount: streamSnapshot.data.docs.length,
                   itemBuilder: (ctx, index) {
                     return ObjectItemField(
-                        streamSnapshot.data.docs[index]['address']);
+                      streamSnapshot.data.docs[index].id,
+                      streamSnapshot.data.docs[index]['address'],
+                      streamSnapshot.data.docs[index]['isMonthlyService'],
+                      streamSnapshot.data.docs[index]['isQuarterlyService'],
+                    );
                   }),
             );
           },
