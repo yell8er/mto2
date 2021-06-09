@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:mto/screens/edit_object.dart';
 
 // import './screens/objects_screen.dart';
 // import './screens/service_requests_screen.dart';
@@ -27,14 +28,16 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        primarySwatch: createMaterialColor(Color(0xFF00622D)),
-        //0xFF007200-main
-        //0xFF007A00
-        //0xFF217b43
-        //0xFF46BE4D
-        //0xFF1E6E3C
-        //0xFF00622D
-        //0xFFEF7E2F -orange
+        primarySwatch: createMaterialColor(Color(0xFF007200)),
+        // 0xFF007200-main
+        // Color(0xFF007200)
+        // Color(0xFF007A00)
+        // Color(0xFF217b43)
+        // Color(0xFF46BE4D)
+        // Color(0xFF1E6E3C)
+        // Color(0xFF00622D)
+        // Color(0xFFEF7E2F)
+        // Color(0xFF00622D)
       ),
       // home: AuthScreen(),
       initialRoute: '/',
@@ -49,8 +52,8 @@ class MyApp extends StatelessWidget {
               },
             ),
         '/add-object': (ctx) => AddObject(),
+        // 'test': (ctx)=> Test(),
       },
     );
   }
 }
-
