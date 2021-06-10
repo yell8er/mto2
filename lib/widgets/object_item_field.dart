@@ -188,6 +188,8 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
                                           onChanged: (bool value) {
                                             setState(() {
                                               widget.isQuarterlyService = value;
+                                              if (!widget.isQuarterlyService)
+                                                widget.isAct = false;
                                             });
                                           }),
                                       Container(
@@ -203,6 +205,8 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
                                           onChanged: (bool value) {
                                             setState(() {
                                               widget.isMonthlyService = value;
+                                              if (!widget.isMonthlyService)
+                                                widget.isJournal = false;
                                             });
                                           }),
                                     ],
@@ -222,6 +226,9 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
                                           onChanged: (value) {
                                             setState(() {
                                               widget.isAct = value;
+                                              if (widget.isAct)
+                                                widget.isQuarterlyService =
+                                                    true;
                                             });
                                           }),
 
@@ -246,6 +253,8 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
                                           onChanged: (bool value) {
                                             setState(() {
                                               widget.isJournal = value;
+                                              if (widget.isJournal)
+                                                widget.isMonthlyService = true;
                                             });
                                           }),
                                     ],
@@ -303,7 +312,21 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
                           color: Colors.brown[700],
                           fontWeight: FontWeight.bold),
                     )
-                  : null,
+                  : !widget.isJournal
+                      ? Text(
+                          'Ж',
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.brown[700],
+                              fontWeight: FontWeight.bold),
+                        )
+                      : Text(
+                          '+',
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.brown[700],
+                              fontWeight: FontWeight.bold),
+                        ),
             ),
           ),
           Container(

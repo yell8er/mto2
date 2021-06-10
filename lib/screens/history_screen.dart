@@ -11,7 +11,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       appBar: AppBar(
+      appBar: AppBar(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(13),
@@ -23,6 +23,17 @@ class _HistoryScreenState extends State<HistoryScreen> {
         title: Text('История'),
       ),
       drawer: MainDrawer(),
+      body: Column(
+        // mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            height: MediaQuery.of(context).size.width * 1.5,
+            decoration: BoxDecoration(
+              border: Border.all(width: 2),
+            ),
+          )
+        ],
+      ),
     );
   }
 }
