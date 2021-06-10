@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mto/screens/edit_object.dart';
+import 'package:intl/intl.dart';
 
 class ObjectItemField extends StatefulWidget {
   // const ObjectItemField({ Key? key }) : super(key: key);
   ObjectItemField(
-    this.id,
-    this.address,
-    this.servicedParts,
-    this.contacts,
-    this.specification,
-    this.passwords,
-    this.malfunctions,
-    this.notes,
-    this.isMonthlyService,
-    this.isQuarterlyService,
-    this.isJournal,
-    this.isAct,
-  );
+      this.id,
+      this.address,
+      this.servicedParts,
+      this.contacts,
+      this.specification,
+      this.passwords,
+      this.malfunctions,
+      this.notes,
+      this.isMonthlyService,
+      this.isQuarterlyService,
+      this.isJournal,
+      this.isAct,
+      this.serviceDate);
   final String id;
   final String address;
   final String servicedParts;
@@ -26,6 +27,7 @@ class ObjectItemField extends StatefulWidget {
   final String passwords;
   final String malfunctions;
   final String notes;
+  DateTime serviceDate;
 
   bool isMonthlyService;
   bool isQuarterlyService;
@@ -45,6 +47,13 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
   var _passwordsController = TextEditingController();
   var _malfunctionsController = TextEditingController();
   var _notesController = TextEditingController();
+  // DateTime pickedDate;
+  @override
+  void initState() {
+    super.initState();
+    // pickedDate = DateTime.now();
+    // widget.serviceDate = DateTime.now();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -114,81 +123,150 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
                     context: context,
                     builder: (context) {
                       return StatefulBuilder(builder: (context, setState) {
+                        _pickDate() async {
+                          DateTime date = await showDatePicker(
+                            context: context,
+                            // initialDate: pickedDate,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime(DateTime.now().year - 5),
+                            lastDate: DateTime(DateTime.now().year + 5),
+                          );
+                          if (date != null) {
+                            setState(() {
+                              // pickedDate = date;
+                              widget.serviceDate = date;
+                            });
+                          }
+                        }
+
                         return Dialog(
+                          insetPadding: EdgeInsets.all(25),
+                          // backgroundColor: Colors.white70,
+                          // insetAnimationDuration: Duration(microseconds: 1),
+                          // insetAnimationCurve: Curves.easeInCubic,
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
                           ),
                           child: Padding(
-                            padding: EdgeInsets.all(20),
+                            padding: const EdgeInsets.all(22),
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.center,
+
+                              // crossAxisAlignment: CrossAxisAlignment.stretch,
+                              // mainAxisAlignment: MainAxisAlignment.center,
+                              // crossAxisAlignment: CrossAxisAlignment.center,
+
                               children: [
                                 Text(
-                                  'Техническое обслуживание',
+                                  'Техническое',
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 20),
                                 ),
-                                SizedBox(height: 50),
-                                Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Checkbox(
-                                        value: widget.isMonthlyService,
-                                        onChanged: (bool value) {
-                                          setState(() {
-                                            widget.isMonthlyService = value;
-                                          });
-                                        }),
-                                    Text(
-                                      'TO',
-                                      style: TextStyle(fontSize: 16),
-                                    ),
-                                    Checkbox(
-                                        value: widget.isJournal,
-                                        onChanged: (bool value) {
-                                          setState(() {
-                                            widget.isJournal = value;
-                                          });
-                                        }),
-                                    Text(
-                                      'Журнал подписан',
-                                      style: TextStyle(fontSize: 14),
-                                    ),
-                                  ],
+                                Text(
+                                  'обслуживание',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
+                                ),
+                                SizedBox(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.07),
+                                Container(
+                                  margin: EdgeInsets.only(right: 15),
+                                  child: Row(
+                                    // mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        'КВ',
+                                        style: TextStyle(fontSize: 18),
+                                      ),
+                                      Checkbox(
+                                          value: widget.isQuarterlyService,
+                                          onChanged: (bool value) {
+                                            setState(() {
+                                              widget.isQuarterlyService = value;
+                                            });
+                                          }),
+                                      Container(
+                                        width: 75,
+                                        alignment: Alignment.centerRight,
+                                        child: Text(
+                                          'TO',
+                                          style: TextStyle(fontSize: 18),
+                                        ),
+                                      ),
+                                      Checkbox(
+                                          value: widget.isMonthlyService,
+                                          onChanged: (bool value) {
+                                            setState(() {
+                                              widget.isMonthlyService = value;
+                                            });
+                                          }),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(right: 15),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        'Акт',
+                                        style: TextStyle(fontSize: 18),
+                                      ),
+                                      Checkbox(
+                                          value: widget.isAct,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              widget.isAct = value;
+                                            });
+                                          }),
+
+                                      Container(
+                                        width: 75,
+                                        alignment: Alignment.centerRight,
+                                        child: Text(
+                                          'Журнал',
+                                          style: TextStyle(fontSize: 18),
+                                        ),
+                                      ),
+                                      // CheckboxListTile(
+                                      //   title: Text(),
+                                      //     value: widget.isJournal,
+                                      //     onChanged: (bool value) {
+                                      //       setState(() {
+                                      //         widget.isJournal = value;
+                                      //       });
+                                      //     }),
+                                      Checkbox(
+                                          value: widget.isJournal,
+                                          onChanged: (bool value) {
+                                            setState(() {
+                                              widget.isJournal = value;
+                                            });
+                                          }),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 20,
                                 ),
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Checkbox(
-                                        value: widget.isQuarterlyService,
-                                        onChanged: (bool value) {
-                                          setState(() {
-                                            widget.isQuarterlyService = value;
-                                          });
-                                        }),
-                                    Text(
-                                      'КВ',
-                                      style: TextStyle(fontSize: 16),
+                                    TextButton(
+                                      onPressed: () {
+                                        _pickDate();
+                                      },
+                                      child: widget.serviceDate.year == 1900
+                                          ? Text('Дата:')
+                                          : Text(
+                                              'Дата: ${DateFormat.yMMMd('ru_RU').format(widget.serviceDate)}'),
                                     ),
-                                    Checkbox(
-                                        value: widget.isAct,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            widget.isAct = value;
-                                          });
-                                        }),
-                                    Text(
-                                      'Акт подписан',
-                                      style: TextStyle(fontSize: 16),
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
                                     ElevatedButton(
                                       onPressed: () {
                                         FirebaseFirestore.instance
@@ -201,6 +279,7 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
                                               widget.isQuarterlyService,
                                           'isJournal': widget.isJournal,
                                           'isAct': widget.isAct,
+                                          'serviceDate': widget.serviceDate,
                                         });
 
                                         Navigator.of(context).pop();

@@ -68,6 +68,7 @@ class _ObjectsScreenState extends State<ObjectsScreen> {
                       streamSnapshot.data.docs[index]['isQuarterlyService'],
                       streamSnapshot.data.docs[index]['isJournal'],
                       streamSnapshot.data.docs[index]['isAct'],
+                      streamSnapshot.data.docs[index]['serviceDate'].toDate(),
                     );
                   }),
             );
