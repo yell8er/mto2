@@ -27,7 +27,7 @@ class _ObjectsScreenState extends State<ObjectsScreen> {
               bottomRight: Radius.circular(13),
             ),
           ),
-          elevation: 25,
+          // elevation: 0,
           shadowColor: Theme.of(context).accentColor,
           title: Text('Объекты'),
           actions: [
@@ -42,66 +42,89 @@ class _ObjectsScreenState extends State<ObjectsScreen> {
         body: Column(
           children: [
             Container(
-              padding: EdgeInsets.only(
-                left: 20,
-                top: 1,
-                bottom: 1,
+              // padding: EdgeInsets.only(
+              //   // left: 15,
+              //   top: 1,
+              //   bottom: 1,
+              // ),
+              decoration: BoxDecoration(
+                color: Theme.of(context).primaryColor,
+                borderRadius: BorderRadius.circular(8),
+                // border: Border.all(width: 1),
               ),
               margin: EdgeInsets.symmetric(
                 vertical: 5,
                 horizontal: 5,
               ),
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.4,
-                      alignment: Alignment.centerLeft,
+              child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                Container(
+                  decoration: BoxDecoration(
+                      // border: Border.all(width: 1),
+                      ),
+                  width: MediaQuery.of(context).size.width * 0.6,
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'АДРЕС',
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      // fontStyle: FontStyle.italic,
+                    ),
+                  ),
+                ),
+                Container(
+                  // decoration: BoxDecoration(border: Border.all(width: 1)),
+                  width: MediaQuery.of(context).size.width * 0.11,
+                  child: TextButton(
+                      onPressed: () {},
                       child: Text(
-                        'Адрес',
+                        'ТО',
                         style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.black,
+                            fontSize: 15,
+                            color: Colors.white,
                             fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.15,
-                      child: TextButton(
-                          onPressed: () {},
-                          child: Text(
-                            'ТО',
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
-                          )),
-                    ),
-                    Container(
-                      padding: EdgeInsets.zero,
-                      margin: EdgeInsets.zero,
-                      width: MediaQuery.of(context).size.width * 0.15,
-                      child: TextButton(
-                          onPressed: () {},
-                          child: Text(
-                            'КВ',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          )),
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.1,
-                      child: IconButton(
-                        icon: Icon(Icons.warning_amber_rounded),
-                        onPressed: () {},
-                        color: Colors.black,
-                      ),
-                    ),
-                  ]),
+                      )),
+                ),
+                Container(
+                  // decoration: BoxDecoration(border: Border.all(width: 1)),
+                  padding: EdgeInsets.zero,
+                  margin: EdgeInsets.zero,
+                  width: MediaQuery.of(context).size.width * 0.11,
+                  child: TextButton(
+                      onPressed: () {},
+                      child: Text(
+                        'КВ',
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )),
+                ),
+                Container(
+                  // decoration: BoxDecoration(border: Border.all(width: 1)),
+                  width: MediaQuery.of(context).size.width * 0.1,
+                  child: IconButton(
+                    icon: Icon(Icons.warning_amber_rounded),
+                    onPressed: () {},
+                    color: Colors.white,
+                  ),
+                ),
+              ]),
             ),
+            // Container(
+            //   width: MediaQuery.of(context).size.width * 0.8,
+            //   decoration: BoxDecoration(
+            //     border: Border.all(
+            //       width: 0.5,
+            //     ),
+            //   ),
+            // ),
+            // SizedBox(
+            //   width: MediaQuery.of(context).size.width,
+            //   height: 10,
+            // ),
             Flexible(
               child: SingleChildScrollView(
                 child: StreamBuilder(

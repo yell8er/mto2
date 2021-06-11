@@ -94,15 +94,15 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
         ),
         // width: 140,
         padding: EdgeInsets.only(
-          left: 15,
+          // left: 15,
           top: 5,
           bottom: 5,
         ),
         margin: EdgeInsets.symmetric(
           vertical: 5,
-          horizontal: 5,
+          horizontal: 6,
         ),
-        child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+        child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
           Container(
             // decoration: BoxDecoration(border: Border.all(width: 1)),
             width: MediaQuery.of(context).size.width * 0.6,
@@ -129,7 +129,7 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
           ),
           Container(
             // decoration: BoxDecoration(border: Border.all(width: 1)),
-            width: MediaQuery.of(context).size.width * 0.1,
+            width: MediaQuery.of(context).size.width * 0.11,
             child: IconButton(
               onPressed: () {
                 showDialog(
@@ -336,7 +336,7 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
             // decoration: BoxDecoration(border: Border.all(width: 1)),
             // padding: EdgeInsets.zero,
             // margin: EdgeInsets.zero,
-            width: MediaQuery.of(context).size.width * 0.1,
+            width: MediaQuery.of(context).size.width * 0.11,
             child: IconButton(
                 onPressed: () {},
                 icon: widget.isAct
