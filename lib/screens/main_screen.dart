@@ -237,8 +237,14 @@ class _MainScreenState extends State<MainScreen> {
                 ]),
           );
         },
-        label: Text('Добавить задачу'),
-        icon: Icon(Icons.add),
+        label: Text(
+          'Задача',
+          style: TextStyle(color: Colors.black, fontSize: 14),
+        ),
+        icon: Icon(
+          Icons.add_outlined,
+          color: Colors.black,
+        ),
       ),
     );
   }

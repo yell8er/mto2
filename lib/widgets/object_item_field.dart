@@ -117,7 +117,7 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
           ),
           Container(
             width: MediaQuery.of(context).size.width * 0.15,
-            child: TextButton(
+            child: IconButton(
               onPressed: () {
                 showDialog(
                     context: context,
@@ -152,11 +152,6 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
                             padding: const EdgeInsets.all(22),
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
-
-                              // crossAxisAlignment: CrossAxisAlignment.stretch,
-                              // mainAxisAlignment: MainAxisAlignment.center,
-                              // crossAxisAlignment: CrossAxisAlignment.center,
-
                               children: [
                                 Text(
                                   'Техническое',
@@ -176,7 +171,7 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
                                 Container(
                                   margin: EdgeInsets.only(right: 15),
                                   child: Row(
-                                    // mainAxisSize: MainAxisSize.max,
+                                    // mainAxisSize: MainAxisSize.min,
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
                                       Text(
@@ -188,6 +183,8 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
                                           onChanged: (bool value) {
                                             setState(() {
                                               widget.isQuarterlyService = value;
+                                              if (!widget.isQuarterlyService)
+                                                widget.isAct = false;
                                             });
                                           }),
                                       Container(
@@ -203,6 +200,8 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
                                           onChanged: (bool value) {
                                             setState(() {
                                               widget.isMonthlyService = value;
+                                              if (!widget.isMonthlyService)
+                                                widget.isJournal = false;
                                             });
                                           }),
                                     ],
@@ -222,9 +221,11 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
                                           onChanged: (value) {
                                             setState(() {
                                               widget.isAct = value;
+                                              if (widget.isAct)
+                                                widget.isQuarterlyService =
+                                                    true;
                                             });
                                           }),
-
                                       Container(
                                         width: 75,
                                         alignment: Alignment.centerRight,
@@ -233,19 +234,13 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
                                           style: TextStyle(fontSize: 18),
                                         ),
                                       ),
-                                      // CheckboxListTile(
-                                      //   title: Text(),
-                                      //     value: widget.isJournal,
-                                      //     onChanged: (bool value) {
-                                      //       setState(() {
-                                      //         widget.isJournal = value;
-                                      //       });
-                                      //     }),
                                       Checkbox(
                                           value: widget.isJournal,
                                           onChanged: (bool value) {
                                             setState(() {
                                               widget.isJournal = value;
+                                              if (widget.isJournal)
+                                                widget.isMonthlyService = true;
                                             });
                                           }),
                                     ],
@@ -297,41 +292,52 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
                       });
                     });
               },
-              child: (!widget.isMonthlyService)
-                  ? Text(
-                      'ТО',
-                      style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.brown[700],
-                          fontWeight: FontWeight.bold),
-                    )
-                  : Text(
-                      '+',
-                      style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.brown[700],
-                          fontWeight: FontWeight.bold),
-                    ),
+              icon: (!widget.isMonthlyService)
+                  ? Icon(Icons.hourglass_empty_rounded
+                      // 'ТО',
+                      // style: TextStyle(
+                      //     fontSize: 16,
+                      //     color: Colors.brown[700],
+                      //     fontWeight: FontWeight.bold),
+                      )
+                  : !widget.isJournal
+                      ? Icon(Icons.menu_book_rounded
+                          // 'Ж',
+                          // style: TextStyle(
+                          //     fontSize: 16,
+                          //     color: Colors.brown[700],
+                          //     fontWeight: FontWeight.bold),
+                          )
+                      : Icon(
+                          Icons.done,
+
+                          // '+',
+                          // style: TextStyle(
+                          //     fontSize: 16,
+                          //     color: Colors.brown[700],
+                          //     fontWeight: FontWeight.bold),
+                        ),
             ),
           ),
           Container(
             padding: EdgeInsets.zero,
             margin: EdgeInsets.zero,
             width: MediaQuery.of(context).size.width * 0.15,
-            child: TextButton(
-              onPressed: () {},
-              child: !widget.isQuarterlyService
-                  ? Text(
-                      'КВ',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.brown[700],
-                        fontWeight: FontWeight.bold,
-                      ),
-                    )
-                  : null,
-            ),
+            child: IconButton(
+                onPressed: () {},
+                icon: widget.isAct
+                    ? Icon(Icons.done_rounded
+                        // 'КВ',
+                        // style: TextStyle(
+                        //   fontSize: 16,
+                        //   color: Colors.brown[700],
+                        //   fontWeight: FontWeight.bold,
+                        )
+                    : widget.isQuarterlyService
+                        ? Icon(Icons.list_alt_rounded)
+                        : Icon(Icons.hourglass_empty_rounded)),
           ),
+          // ),
           Container(
             width: MediaQuery.of(context).size.width * 0.1,
             child: IconButton(
