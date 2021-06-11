@@ -57,7 +57,13 @@ class _ObjectsScreenState extends State<ObjectsScreen> {
                     Container(
                       width: MediaQuery.of(context).size.width * 0.4,
                       alignment: Alignment.centerLeft,
-                      child: Text('Адрес'),
+                      child: Text(
+                        'Адрес',
+                        style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold),
+                      ),
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width * 0.15,
@@ -67,7 +73,7 @@ class _ObjectsScreenState extends State<ObjectsScreen> {
                             'ТО',
                             style: TextStyle(
                                 fontSize: 16,
-                                color: Colors.brown[700],
+                                color: Colors.black,
                                 fontWeight: FontWeight.bold),
                           )),
                     ),
@@ -81,7 +87,7 @@ class _ObjectsScreenState extends State<ObjectsScreen> {
                             'КВ',
                             style: TextStyle(
                               fontSize: 16,
-                              color: Colors.brown[700],
+                              color: Colors.black,
                               fontWeight: FontWeight.bold,
                             ),
                           )),
@@ -91,7 +97,7 @@ class _ObjectsScreenState extends State<ObjectsScreen> {
                       child: IconButton(
                         icon: Icon(Icons.warning_amber_rounded),
                         onPressed: () {},
-                        color: Colors.red[600],
+                        color: Colors.black,
                       ),
                     ),
                   ]),

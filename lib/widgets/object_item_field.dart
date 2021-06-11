@@ -81,22 +81,22 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
       },
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.indigo[100],
+          color: Colors.grey[200],
           borderRadius: BorderRadius.circular(7),
           boxShadow: [
             BoxShadow(
               color: Colors.grey,
               blurRadius: 0,
               spreadRadius: 0,
-              offset: Offset(0, 1),
+              offset: Offset(-1, 1),
             ),
           ],
         ),
         // width: 140,
         padding: EdgeInsets.only(
-          left: 20,
-          top: 1,
-          bottom: 1,
+          left: 15,
+          top: 5,
+          bottom: 5,
         ),
         margin: EdgeInsets.symmetric(
           vertical: 5,
@@ -104,19 +104,32 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
         ),
         child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
           Container(
-            // decoration: BoxDecoration(border: Border.all(width: 2)),
-            width: MediaQuery.of(context).size.width * 0.4,
+            // decoration: BoxDecoration(border: Border.all(width: 1)),
+            width: MediaQuery.of(context).size.width * 0.6,
             alignment: Alignment.centerLeft,
             child: Text(
               widget.address,
               style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
+                fontWeight: FontWeight.w400,
+                fontSize: 20,
+                // shadows: <Shadow>[
+                //   Shadow(
+                //     offset: Offset(-0.3, 0.3),
+                //     blurRadius: 1.0,
+                //     color: Color.fromARGB(255, 0, 0, 0),
+                //   ),
+                //   // Shadow(
+                //   //   offset: Offset(10.0, 10.0),
+                //   //   blurRadius: 8.0,
+                //   //   color: Color.fromARGB(125, 0, 0, 255),
+                //   // ),
+                // ],
               ),
             ),
           ),
           Container(
-            width: MediaQuery.of(context).size.width * 0.15,
+            // decoration: BoxDecoration(border: Border.all(width: 1)),
+            width: MediaQuery.of(context).size.width * 0.1,
             child: IconButton(
               onPressed: () {
                 showDialog(
@@ -320,25 +333,20 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
             ),
           ),
           Container(
-            padding: EdgeInsets.zero,
-            margin: EdgeInsets.zero,
-            width: MediaQuery.of(context).size.width * 0.15,
+            // decoration: BoxDecoration(border: Border.all(width: 1)),
+            // padding: EdgeInsets.zero,
+            // margin: EdgeInsets.zero,
+            width: MediaQuery.of(context).size.width * 0.1,
             child: IconButton(
                 onPressed: () {},
                 icon: widget.isAct
-                    ? Icon(Icons.done_rounded
-                        // 'КВ',
-                        // style: TextStyle(
-                        //   fontSize: 16,
-                        //   color: Colors.brown[700],
-                        //   fontWeight: FontWeight.bold,
-                        )
+                    ? Icon(Icons.done_rounded)
                     : widget.isQuarterlyService
                         ? Icon(Icons.list_alt_rounded)
                         : Icon(Icons.hourglass_empty_rounded)),
           ),
-          // ),
           Container(
+            // decoration: BoxDecoration(border: Border.all(width: 1)),
             width: MediaQuery.of(context).size.width * 0.1,
             child: IconButton(
               icon: widget.malfunctions.isNotEmpty
