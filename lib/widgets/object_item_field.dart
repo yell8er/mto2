@@ -262,9 +262,11 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
                                       onPressed: () {
                                         _pickDate();
                                       },
-                                      child: widget.serviceDate.year == 1900
-                                          ? Text('Дата:')
-                                          : Text(
+                                      child:
+                                          //widget.serviceDate.year == 1900
+                                          //     ? Text('Дата:')
+                                          //     :
+                                          Text(
                                               'Дата: ${DateFormat.yMMMd('ru_RU').format(widget.serviceDate)}'),
                                     ),
                                     ElevatedButton(
@@ -295,7 +297,7 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
                       });
                     });
               },
-              child: !widget.isMonthlyService
+              child: (!widget.isMonthlyService)
                   ? Text(
                       'ТО',
                       style: TextStyle(
@@ -303,7 +305,13 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
                           color: Colors.brown[700],
                           fontWeight: FontWeight.bold),
                     )
-                  : null,
+                  : Text(
+                      '+',
+                      style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.brown[700],
+                          fontWeight: FontWeight.bold),
+                    ),
             ),
           ),
           Container(
