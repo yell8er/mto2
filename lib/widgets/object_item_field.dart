@@ -66,7 +66,7 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
     _passwordsController.text = widget.passwords;
     _malfunctionsController.text = widget.malfunctions;
     _notesController.text = widget.notes;
-
+//show service info dialog
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
@@ -81,6 +81,7 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
                   notes: widget.notes,
                 )));
       },
+//main field
       child: Slidable(
         actionPane: SlidableDrawerActionPane(),
         actionExtentRatio: 0.2,
@@ -158,6 +159,7 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
             horizontal: 6,
           ),
           child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+//address
             Container(
               // decoration: BoxDecoration(border: Border.all(width: 1)),
               width: MediaQuery.of(context).size.width * 0.6,
@@ -190,181 +192,186 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
               child: IconButton(
 //TO button
                 onPressed: () {
+                  // _showServiceInfo();
                   showDialog(
-                      context: context,
-                      builder: (context) {
-                        return StatefulBuilder(builder: (context, setState) {
-                          _pickDate() async {
-                            DateTime date = await showDatePicker(
-                              context: context,
-                              // initialDate: pickedDate,
-                              initialDate: DateTime.now(),
-                              firstDate: DateTime(DateTime.now().year - 5),
-                              lastDate: DateTime(DateTime.now().year + 5),
-                            );
-                            if (date != null) {
-                              setState(() {
-                                // pickedDate = date;
-                                widget.serviceDate = date;
-                              });
-                            }
-                          }
-
-                          return Dialog(
-                            insetPadding: EdgeInsets.all(25),
-                            // backgroundColor: Colors.white70,
-                            // insetAnimationDuration: Duration(microseconds: 1),
-                            // insetAnimationCurve: Curves.easeInCubic,
-                            clipBehavior: Clip.antiAliasWithSaveLayer,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(22),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(
-                                    'Техническое',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20),
-                                  ),
-                                  Text(
-                                    'обслуживание',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20),
-                                  ),
-                                  SizedBox(
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.07),
-                                  Container(
-                                    margin: EdgeInsets.only(right: 15),
-                                    child: Row(
-                                      // mainAxisSize: MainAxisSize.min,
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Text(
-                                          'КВ',
-                                          style: TextStyle(fontSize: 18),
-                                        ),
-                                        Checkbox(
-                                            value: widget.isQuarterlyService,
-                                            onChanged: (bool value) {
-                                              setState(() {
-                                                widget.isQuarterlyService =
-                                                    value;
-                                                if (!widget.isQuarterlyService)
-                                                  widget.isAct = false;
-                                              });
-                                            }),
-                                        Container(
-                                          width: 75,
-                                          alignment: Alignment.centerRight,
-                                          child: Text(
-                                            'TO',
-                                            style: TextStyle(fontSize: 18),
-                                          ),
-                                        ),
-                                        Checkbox(
-                                            value: widget.isMonthlyService,
-                                            onChanged: (bool value) {
-                                              setState(() {
-                                                widget.isMonthlyService = value;
-                                                if (!widget.isMonthlyService)
-                                                  widget.isJournal = false;
-                                              });
-                                            }),
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.only(right: 15),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Text(
-                                          'Акт',
-                                          style: TextStyle(fontSize: 18),
-                                        ),
-                                        Checkbox(
-                                            value: widget.isAct,
-                                            onChanged: (value) {
-                                              setState(() {
-                                                widget.isAct = value;
-                                                if (widget.isAct)
-                                                  widget.isQuarterlyService =
-                                                      true;
-                                              });
-                                            }),
-                                        Container(
-                                          width: 75,
-                                          alignment: Alignment.centerRight,
-                                          child: Text(
-                                            'Журнал',
-                                            style: TextStyle(fontSize: 18),
-                                          ),
-                                        ),
-                                        Checkbox(
-                                            value: widget.isJournal,
-                                            onChanged: (bool value) {
-                                              setState(() {
-                                                widget.isJournal = value;
-                                                if (widget.isJournal)
-                                                  widget.isMonthlyService =
-                                                      true;
-                                              });
-                                            }),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 20,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      TextButton(
-                                        onPressed: () {
-                                          _pickDate();
-                                        },
-                                        child:
-                                            //widget.serviceDate.year == 1900
-                                            //     ? Text('Дата:')
-                                            //     :
-                                            Text(
-                                                'Дата: ${DateFormat.yMMMd('ru_RU').format(widget.serviceDate)}'),
-                                      ),
-                                      ElevatedButton(
-                                        onPressed: () {
-                                          FirebaseFirestore.instance
-                                              .collection('objects')
-                                              .doc(widget.id)
-                                              .update({
-                                            'isMonthlyService':
-                                                widget.isMonthlyService,
-                                            'isQuarterlyService':
-                                                widget.isQuarterlyService,
-                                            'isJournal': widget.isJournal,
-                                            'isAct': widget.isAct,
-                                            'serviceDate': widget.serviceDate,
-                                          });
-
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: Text('Сохранить'),
-                                      )
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ),
+                    context: context,
+                    builder: (context) {
+                      return StatefulBuilder(builder: (context, setState) {
+                        _pickDate() async {
+                          DateTime date = await showDatePicker(
+                            context: context,
+                            // initialDate: pickedDate,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime(DateTime.now().year - 5),
+                            lastDate: DateTime(DateTime.now().year + 5),
                           );
-                        });
+                          if (date != null) {
+                            setState(() {
+                              // pickedDate = date;
+                              widget.serviceDate = date;
+                            });
+                          }
+                        }
+
+                        return Dialog(
+                          insetPadding: EdgeInsets.all(25),
+                          // backgroundColor: Colors.white70,
+                          // insetAnimationDuration: Duration(microseconds: 1),
+                          // insetAnimationCurve: Curves.easeInCubic,
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(22),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  'Ежемесячное',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
+                                ),
+                                Text(
+                                  'Техническое',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
+                                ),
+                                Text(
+                                  'обслуживание',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
+                                ),
+                                SizedBox(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.02),
+                                Container(
+                                  margin: EdgeInsets.only(right: 15),
+                                  child: Row(
+                                    // mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      // Text(
+                                      //   'КВ',
+                                      //   style: TextStyle(fontSize: 18),
+                                      // ),
+                                      // Checkbox(
+                                      //     value: widget.isQuarterlyService,
+                                      //     onChanged: (bool value) {
+                                      //       setState(() {
+                                      //         widget.isQuarterlyService = value;
+                                      //         if (!widget.isQuarterlyService)
+                                      //           widget.isAct = false;
+                                      //       });
+                                      //     }),
+                                      Container(
+                                        width: 75,
+                                        alignment: Alignment.centerRight,
+                                        child: Text(
+                                          'TO',
+                                          style: TextStyle(fontSize: 18),
+                                        ),
+                                      ),
+                                      Checkbox(
+                                          value: widget.isMonthlyService,
+                                          onChanged: (bool value) {
+                                            setState(() {
+                                              widget.isMonthlyService = value;
+                                              if (!widget.isMonthlyService)
+                                                widget.isJournal = false;
+                                            });
+                                          }),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(right: 15),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      // Text(
+                                      //   'Акт',
+                                      //   style: TextStyle(fontSize: 18),
+                                      // ),
+                                      // Checkbox(
+                                      //     value: widget.isAct,
+                                      //     onChanged: (value) {
+                                      //       setState(() {
+                                      //         widget.isAct = value;
+                                      //         if (widget.isAct)
+                                      //           widget.isQuarterlyService =
+                                      //               true;
+                                      //       });
+                                      //     }),
+                                      Container(
+                                        width: 75,
+                                        alignment: Alignment.centerRight,
+                                        child: Text(
+                                          'Журнал',
+                                          style: TextStyle(fontSize: 18),
+                                        ),
+                                      ),
+                                      Checkbox(
+                                          value: widget.isJournal,
+                                          onChanged: (bool value) {
+                                            setState(() {
+                                              widget.isJournal = value;
+                                              if (widget.isJournal)
+                                                widget.isMonthlyService = true;
+                                            });
+                                          }),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    TextButton(
+                                      onPressed: () {
+                                        _pickDate();
+                                      },
+                                      child:
+                                          //widget.serviceDate.year == 1900
+                                          //     ? Text('Дата:')
+                                          //     :
+                                          Text(
+                                              'Дата: ${DateFormat.yMMMd('ru_RU').format(widget.serviceDate)}'),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        FirebaseFirestore.instance
+                                            .collection('objects')
+                                            .doc(widget.id)
+                                            .update({
+                                          'isMonthlyService':
+                                              widget.isMonthlyService,
+                                          'isQuarterlyService':
+                                              widget.isQuarterlyService,
+                                          'isJournal': widget.isJournal,
+                                          'isAct': widget.isAct,
+                                          'serviceDate': widget.serviceDate,
+                                        });
+
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Text('Сохранить'),
+                                    )
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                        );
                       });
+                    },
+                  );
                 },
 // Icon for TO
                 icon: (!widget.isMonthlyService)
@@ -394,7 +401,172 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
                             MaterialCommunityIcons.file_document_box_outline,
                           )
                         : Icon(MaterialCommunityIcons.settings_helper),
-                onPressed: () {},
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return StatefulBuilder(builder: (context, setState) {
+                        _pickDate() async {
+                          DateTime date = await showDatePicker(
+                            context: context,
+                            // initialDate: pickedDate,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime(DateTime.now().year - 5),
+                            lastDate: DateTime(DateTime.now().year + 5),
+                          );
+                          if (date != null) {
+                            setState(() {
+                              // pickedDate = date;
+                              widget.serviceDate = date;
+                            });
+                          }
+                        }
+
+                        return Dialog(
+                          insetPadding: EdgeInsets.all(25),
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(22),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  'Квартальное',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
+                                ),
+                                Text(
+                                  'техническое',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
+                                ),
+                                Text(
+                                  'обслуживание',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
+                                ),
+                                SizedBox(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.02),
+                                Container(
+                                  margin: EdgeInsets.only(right: 15),
+                                  child: Row(
+                                    // mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        'КВ',
+                                        style: TextStyle(fontSize: 18),
+                                      ),
+                                      Checkbox(
+                                          value: widget.isQuarterlyService,
+                                          onChanged: (bool value) {
+                                            setState(() {
+                                              widget.isQuarterlyService = value;
+                                              if (!widget.isQuarterlyService)
+                                                widget.isAct = false;
+                                              widget.isJournal = false;
+                                              if (widget.isQuarterlyService)
+                                                widget.isMonthlyService = true;
+                                            });
+                                          }),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(right: 15),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        'Акт',
+                                        style: TextStyle(fontSize: 18),
+                                      ),
+                                      Checkbox(
+                                          value: widget.isAct,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              widget.isAct = value;
+                                              if (widget.isAct)
+                                                widget.isQuarterlyService =
+                                                    true;
+                                            });
+                                          }),
+                                      Container(
+                                        width: 75,
+                                        alignment: Alignment.centerRight,
+                                        child: Text(
+                                          'Журнал',
+                                          style: TextStyle(fontSize: 18),
+                                        ),
+                                      ),
+                                      Checkbox(
+                                          value: widget.isJournal,
+                                          onChanged: (bool value) {
+                                            setState(() {
+                                              widget.isJournal = value;
+                                              if (widget.isJournal)
+                                                widget.isQuarterlyService =
+                                                    true;
+                                              widget.isMonthlyService = true;
+                                            });
+                                          }),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    TextButton(
+                                      onPressed: () {
+                                        _pickDate();
+                                      },
+                                      child:
+                                          //widget.serviceDate.year == 1900
+                                          //     ? Text('Дата:')
+                                          //     :
+                                          Text(
+                                              'Дата: ${DateFormat.yMMMd('ru_RU').format(widget.serviceDate)}'),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        FirebaseFirestore.instance
+                                            .collection('objects')
+                                            .doc(widget.id)
+                                            .update({
+                                          'isMonthlyService':
+                                              widget.isMonthlyService,
+                                          'isQuarterlyService':
+                                              widget.isQuarterlyService,
+                                          'isJournal': widget.isJournal,
+                                          'isAct': widget.isAct,
+                                          'serviceDate': widget.serviceDate,
+                                        });
+
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Text('Сохранить'),
+                                    )
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                        );
+                      });
+                    },
+                  );
+                },
               ),
             ),
             Container(

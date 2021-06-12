@@ -44,11 +44,6 @@ class _ObjectsScreenState extends State<ObjectsScreen> {
 //top info bar
             Container(
               height: MediaQuery.of(context).size.height * 0.045,
-              // padding: EdgeInsets.only(
-              //   // left: 15,
-              //   top: 1,
-              //   bottom: 1,
-              // ),
               decoration: BoxDecoration(
                 color: Theme.of(context).primaryColor.withAlpha(110),
                 // color: Colors.white,
