@@ -29,6 +29,9 @@ class EditObject extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //  controller Widget<TextEditingController>;TextEditingController();
+    // TextEditingController();
+
     var _addressController = TextEditingController();
     var _servicedPartsController = TextEditingController();
     var _contactsController = TextEditingController();
@@ -44,6 +47,21 @@ class EditObject extends StatelessWidget {
     _passwordsController.text = passwords;
     _malfunctionsController.text = malfunctions;
     _notesController.text = notes;
+
+    _addressController.selection = TextSelection.fromPosition(
+        TextPosition(offset: _addressController.text.length));
+    _servicedPartsController.selection = TextSelection.fromPosition(
+        TextPosition(offset: _servicedPartsController.text.length));
+    _contactsController.selection = TextSelection.fromPosition(
+        TextPosition(offset: _contactsController.text.length));
+    _specificationController.selection = TextSelection.fromPosition(
+        TextPosition(offset: _specificationController.text.length));
+    _passwordsController.selection = TextSelection.fromPosition(
+        TextPosition(offset: _passwordsController.text.length));
+    _malfunctionsController.selection = TextSelection.fromPosition(
+        TextPosition(offset: _malfunctionsController.text.length));
+    _notesController.selection = TextSelection.fromPosition(
+        TextPosition(offset: _notesController.text.length));
 
     return Scaffold(
       appBar: AppBar(

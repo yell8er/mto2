@@ -41,22 +41,27 @@ class _ObjectsScreenState extends State<ObjectsScreen> {
         drawer: MainDrawer(),
         body: Column(
           children: [
+//top info bar
             Container(
+              height: MediaQuery.of(context).size.height * 0.045,
               // padding: EdgeInsets.only(
               //   // left: 15,
               //   top: 1,
               //   bottom: 1,
               // ),
               decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
+                color: Theme.of(context).primaryColor.withAlpha(110),
+                // color: Colors.white,
                 borderRadius: BorderRadius.circular(8),
                 // border: Border.all(width: 1),
               ),
-              margin: EdgeInsets.symmetric(
-                vertical: 5,
-                horizontal: 5,
+              margin: EdgeInsets.only(
+                left: 5,
+                right: 5,
+                top: 5,
               ),
               child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+//address
                 Container(
                   decoration: BoxDecoration(
                       // border: Border.all(width: 1),
@@ -66,13 +71,15 @@ class _ObjectsScreenState extends State<ObjectsScreen> {
                   child: Text(
                     'АДРЕС',
                     style: TextStyle(
-                      fontSize: 15,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      // fontStyle: FontStyle.italic,
-                    ),
+                        fontSize: 15,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 1
+                        // fontStyle: FontStyle.italic,
+                        ),
                   ),
                 ),
+//TO
                 Container(
                   // decoration: BoxDecoration(border: Border.all(width: 1)),
                   width: MediaQuery.of(context).size.width * 0.11,
@@ -82,13 +89,13 @@ class _ObjectsScreenState extends State<ObjectsScreen> {
                         'ТО',
                         style: TextStyle(
                             fontSize: 15,
-                            color: Colors.white,
+                            color: Colors.black,
                             fontWeight: FontWeight.bold),
                       )),
                 ),
+//KB
                 Container(
                   // decoration: BoxDecoration(border: Border.all(width: 1)),
-                  padding: EdgeInsets.zero,
                   margin: EdgeInsets.zero,
                   width: MediaQuery.of(context).size.width * 0.11,
                   child: TextButton(
@@ -97,18 +104,20 @@ class _ObjectsScreenState extends State<ObjectsScreen> {
                         'КВ',
                         style: TextStyle(
                           fontSize: 15,
-                          color: Colors.white,
+                          color: Colors.black,
                           fontWeight: FontWeight.bold,
                         ),
                       )),
                 ),
+//warning
                 Container(
                   // decoration: BoxDecoration(border: Border.all(width: 1)),
                   width: MediaQuery.of(context).size.width * 0.1,
                   child: IconButton(
+                    padding: EdgeInsets.only(bottom: 5),
                     icon: Icon(Icons.warning_amber_rounded),
                     onPressed: () {},
-                    color: Colors.white,
+                    color: Colors.black,
                   ),
                 ),
               ]),
@@ -125,6 +134,9 @@ class _ObjectsScreenState extends State<ObjectsScreen> {
             //   width: MediaQuery.of(context).size.width,
             //   height: 10,
             // ),
+
+//ListViewBuilder
+
             Flexible(
               child: SingleChildScrollView(
                 child: StreamBuilder(
