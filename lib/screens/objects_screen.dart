@@ -117,21 +117,6 @@ class _ObjectsScreenState extends State<ObjectsScreen> {
                 ),
               ]),
             ),
-            // Container(
-            //   width: MediaQuery.of(context).size.width * 0.8,
-            //   decoration: BoxDecoration(
-            //     border: Border.all(
-            //       width: 0.5,
-            //     ),
-            //   ),
-            // ),
-            // SizedBox(
-            //   width: MediaQuery.of(context).size.width,
-            //   height: 10,
-            // ),
-
-//ListViewBuilder
-
             Flexible(
               child: SingleChildScrollView(
                 child: StreamBuilder(
@@ -172,6 +157,9 @@ class _ObjectsScreenState extends State<ObjectsScreen> {
                               streamSnapshot.data.docs[index]['isJournal'],
                               streamSnapshot.data.docs[index]['isAct'],
                               streamSnapshot.data.docs[index]['serviceDate']
+                                  .toDate(),
+                              streamSnapshot
+                                  .data.docs[index]['quarterlyServiceDate']
                                   .toDate(),
                             );
                           }),

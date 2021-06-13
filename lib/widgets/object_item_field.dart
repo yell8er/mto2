@@ -20,7 +20,8 @@ class ObjectItemField extends StatefulWidget {
       this.isQuarterlyService,
       this.isJournal,
       this.isAct,
-      this.serviceDate);
+      this.serviceDate,
+      this.quarterlyServiceDate);
   final String id;
   final String address;
   final String servicedParts;
@@ -30,6 +31,7 @@ class ObjectItemField extends StatefulWidget {
   final String malfunctions;
   final String notes;
   DateTime serviceDate;
+  DateTime quarterlyServiceDate;
 
   bool isMonthlyService;
   bool isQuarterlyService;
@@ -49,12 +51,14 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
   var _passwordsController = TextEditingController();
   var _malfunctionsController = TextEditingController();
   var _notesController = TextEditingController();
-  // DateTime pickedDate;
+  DateTime pickedDate;
+  DateTime today;
+
   @override
   void initState() {
     super.initState();
-    // pickedDate = DateTime.now();
-    // widget.serviceDate = DateTime.now();
+    pickedDate = DateTime.now();
+    today = DateTime.now();
   }
 
   @override
@@ -66,6 +70,25 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
     _passwordsController.text = widget.passwords;
     _malfunctionsController.text = widget.malfunctions;
     _notesController.text = widget.notes;
+
+    setState(() {
+      if ((today.year == widget.serviceDate.year &&
+              today.month != widget.serviceDate.month) ||
+          (today.month == widget.serviceDate.month &&
+              today.year != widget.serviceDate.year))
+        FirebaseFirestore.instance.collection('objects').doc(widget.id).update({
+          'isMonthlyService': false,
+          'isJournal': false,
+        });
+
+      if (today.month - widget.quarterlyServiceDate.month >= 3 ||
+          today.year != widget.quarterlyServiceDate.year)
+        FirebaseFirestore.instance.collection('objects').doc(widget.id).update({
+          'isQuarterlyService': false,
+          'isAct': false,
+        });
+    });
+
 //show service info dialog
     return GestureDetector(
       onTap: () {
@@ -200,15 +223,13 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
                         _pickDate() async {
                           DateTime date = await showDatePicker(
                             context: context,
-                            // initialDate: pickedDate,
-                            initialDate: DateTime.now(),
-                            firstDate: DateTime(DateTime.now().year - 5),
-                            lastDate: DateTime(DateTime.now().year + 5),
+                            initialDate: today,
+                            firstDate: DateTime(today.year - 5),
+                            lastDate: DateTime(today.year + 5),
                           );
                           if (date != null) {
                             setState(() {
-                              // pickedDate = date;
-                              widget.serviceDate = date;
+                              pickedDate = date;
                             });
                           }
                         }
@@ -249,24 +270,13 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
                                     height: MediaQuery.of(context).size.height *
                                         0.02),
                                 Container(
-                                  margin: EdgeInsets.only(right: 15),
+                                  margin: EdgeInsets.only(right: 1),
                                   child: Row(
                                     // mainAxisSize: MainAxisSize.min,
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
-                                      // Text(
-                                      //   'КВ',
-                                      //   style: TextStyle(fontSize: 18),
-                                      // ),
-                                      // Checkbox(
-                                      //     value: widget.isQuarterlyService,
-                                      //     onChanged: (bool value) {
-                                      //       setState(() {
-                                      //         widget.isQuarterlyService = value;
-                                      //         if (!widget.isQuarterlyService)
-                                      //           widget.isAct = false;
-                                      //       });
-                                      //     }),
+                                      // alignment: Alignment.centerLeft,
+
                                       Container(
                                         width: 75,
                                         alignment: Alignment.centerRight,
@@ -288,24 +298,10 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
                                   ),
                                 ),
                                 Container(
-                                  margin: EdgeInsets.only(right: 15),
+                                  margin: EdgeInsets.only(right: 1),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
-                                      // Text(
-                                      //   'Акт',
-                                      //   style: TextStyle(fontSize: 18),
-                                      // ),
-                                      // Checkbox(
-                                      //     value: widget.isAct,
-                                      //     onChanged: (value) {
-                                      //       setState(() {
-                                      //         widget.isAct = value;
-                                      //         if (widget.isAct)
-                                      //           widget.isQuarterlyService =
-                                      //               true;
-                                      //       });
-                                      //     }),
                                       Container(
                                         width: 75,
                                         alignment: Alignment.centerRight,
@@ -326,9 +322,16 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
                                     ],
                                   ),
                                 ),
-                                SizedBox(
-                                  height: 20,
-                                ),
+                                Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      widget.serviceDate.year == 1900
+                                          ? '  Прошлое ТО:'
+                                          : '  Прошлое ТО:\n  ${DateFormat.yMMMd('ru_RU').format(widget.serviceDate)}',
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                      ),
+                                    )),
                                 Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -340,37 +343,40 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
                                       child: widget.serviceDate.year == 1900
                                           ? Text('Дата:')
                                           : Text(
-                                              'Дата: ${DateFormat.yMMMd('ru_RU').format(widget.serviceDate)}'),
+                                              'Дата: ${DateFormat.yMMMd('ru_RU').format(widget.quarterlyServiceDate)}'),
                                     ),
                                     ElevatedButton(
                                       onPressed: () {
+                                        //print(pickedDate);
                                         FirebaseFirestore.instance
                                             .collection('objects')
                                             .doc(widget.id)
                                             .update({
                                           'isMonthlyService':
                                               widget.isMonthlyService,
-                                          'isQuarterlyService':
-                                              widget.isQuarterlyService,
+                                          // 'isQuarterlyService':
+                                          //     widget.isQuarterlyService,
                                           'isJournal': widget.isJournal,
-                                          'isAct': widget.isAct,
-                                          'serviceDate': widget.serviceDate,
+                                          // 'isAct': widget.isAct,
                                         });
                                         if (((widget.serviceDate.year ==
-                                                        DateTime.now().year &&
+                                                        pickedDate.year &&
                                                     widget.serviceDate.month !=
-                                                        DateTime.now().month) ||
-                                                widget.serviceDate.year ==
-                                                    1900) &&
-                                            widget.isMonthlyService)
+                                                        pickedDate.month) ||
+                                                widget.serviceDate.year !=
+                                                    pickedDate.year) ||
+                                            !widget.isMonthlyService)
                                           FirebaseFirestore.instance
                                               .collection('objects')
                                               .doc(widget.id)
                                               .update({
-                                            'serviceDate': DateTime.now(),
+                                            'serviceDate': pickedDate,
                                           });
 
                                         Navigator.of(context).pop();
+                                        setState(() {
+                                          pickedDate = DateTime.now();
+                                        });
                                       },
                                       child: Text('Сохранить'),
                                     )
@@ -420,15 +426,13 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
                         _pickDate() async {
                           DateTime date = await showDatePicker(
                             context: context,
-                            // initialDate: pickedDate,
-                            initialDate: DateTime.now(),
-                            firstDate: DateTime(DateTime.now().year - 5),
-                            lastDate: DateTime(DateTime.now().year + 5),
+                            initialDate: today,
+                            firstDate: DateTime(today.year - 5),
+                            lastDate: DateTime(today.year + 5),
                           );
                           if (date != null) {
                             setState(() {
-                              // pickedDate = date;
-                              widget.serviceDate = date;
+                              pickedDate = date;
                             });
                           }
                         }
@@ -531,9 +535,16 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
                                     ],
                                   ),
                                 ),
-                                SizedBox(
-                                  height: 20,
-                                ),
+                                Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      widget.quarterlyServiceDate.year == 1900
+                                          ? '    Прошлое КВ:'
+                                          : '    Прошлое КВ:\n    ${DateFormat.yMMMd('ru_RU').format(widget.quarterlyServiceDate)}',
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                      ),
+                                    )),
                                 Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -542,10 +553,8 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
                                       onPressed: () {
                                         _pickDate();
                                       },
-                                      child: widget.serviceDate.year == 1900
-                                          ? Text('Дата:')
-                                          : Text(
-                                              'Дата: ${DateFormat.yMMMd('ru_RU').format(widget.serviceDate)}'),
+                                      child: Text(
+                                          'Дата: ${DateFormat.yMMMd('ru_RU').format(pickedDate)}'),
                                     ),
                                     ElevatedButton(
                                       onPressed: () {
@@ -553,16 +562,37 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
                                             .collection('objects')
                                             .doc(widget.id)
                                             .update({
-                                          'isMonthlyService':
-                                              widget.isMonthlyService,
+                                          // 'isMonthlyService':
+                                          //     widget.isMonthlyService,
                                           'isQuarterlyService':
                                               widget.isQuarterlyService,
                                           'isJournal': widget.isJournal,
                                           'isAct': widget.isAct,
-                                          'serviceDate': widget.serviceDate,
+                                          // 'serviceDate': widget.serviceDate,
                                         });
 
+                                        if (((widget.quarterlyServiceDate
+                                                            .year ==
+                                                        pickedDate.year &&
+                                                    (widget.quarterlyServiceDate
+                                                                .month -
+                                                            pickedDate.month <
+                                                        3)) ||
+                                                widget.quarterlyServiceDate
+                                                        .year !=
+                                                    pickedDate.year) ||
+                                            !widget.isQuarterlyService)
+                                          FirebaseFirestore.instance
+                                              .collection('objects')
+                                              .doc(widget.id)
+                                              .update({
+                                            'quarterlyServiceDate': pickedDate,
+                                          });
+
                                         Navigator.of(context).pop();
+                                        setState(() {
+                                          pickedDate = DateTime.now();
+                                        });
                                       },
                                       child: Text('Сохранить'),
                                     )

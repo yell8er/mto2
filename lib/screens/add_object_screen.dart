@@ -128,6 +128,7 @@ class _AddObjectState extends State<AddObject> {
                 'isAct': false,
                 'isJournal': false,
                 'serviceDate': DateTime(1900, 5, 5),
+                'quarterlyServiceDate': DateTime(1900, 5, 5),
               });
               Navigator.of(context).pop();
             },
