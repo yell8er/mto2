@@ -337,11 +337,9 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
                                       onPressed: () {
                                         _pickDate();
                                       },
-                                      child:
-                                          //widget.serviceDate.year == 1900
-                                          //     ? Text('Дата:')
-                                          //     :
-                                          Text(
+                                      child: widget.serviceDate.year == 1900
+                                          ? Text('Дата:')
+                                          : Text(
                                               'Дата: ${DateFormat.yMMMd('ru_RU').format(widget.serviceDate)}'),
                                     ),
                                     ElevatedButton(
@@ -358,6 +356,19 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
                                           'isAct': widget.isAct,
                                           'serviceDate': widget.serviceDate,
                                         });
+                                        if (((widget.serviceDate.year ==
+                                                        DateTime.now().year &&
+                                                    widget.serviceDate.month !=
+                                                        DateTime.now().month) ||
+                                                widget.serviceDate.year ==
+                                                    1900) &&
+                                            widget.isMonthlyService)
+                                          FirebaseFirestore.instance
+                                              .collection('objects')
+                                              .doc(widget.id)
+                                              .update({
+                                            'serviceDate': DateTime.now(),
+                                          });
 
                                         Navigator.of(context).pop();
                                       },
@@ -531,11 +542,9 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
                                       onPressed: () {
                                         _pickDate();
                                       },
-                                      child:
-                                          //widget.serviceDate.year == 1900
-                                          //     ? Text('Дата:')
-                                          //     :
-                                          Text(
+                                      child: widget.serviceDate.year == 1900
+                                          ? Text('Дата:')
+                                          : Text(
                                               'Дата: ${DateFormat.yMMMd('ru_RU').format(widget.serviceDate)}'),
                                     ),
                                     ElevatedButton(
