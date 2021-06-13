@@ -4,6 +4,7 @@ import 'package:mto/screens/edit_object.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'dart:core';
 
 class ObjectItemField extends StatefulWidget {
   // const ObjectItemField({ Key? key }) : super(key: key);
@@ -557,31 +558,32 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
                                           'Дата: ${DateFormat.yMMMd('ru_RU').format(pickedDate)}'),
                                     ),
                                     ElevatedButton(
+                                      child: Text('Сохранить'),
                                       onPressed: () {
                                         FirebaseFirestore.instance
                                             .collection('objects')
                                             .doc(widget.id)
                                             .update({
-                                          // 'isMonthlyService':
-                                          //     widget.isMonthlyService,
                                           'isQuarterlyService':
                                               widget.isQuarterlyService,
                                           'isJournal': widget.isJournal,
                                           'isAct': widget.isAct,
-                                          // 'serviceDate': widget.serviceDate,
                                         });
 
-                                        if (((widget.quarterlyServiceDate
-                                                            .year ==
-                                                        pickedDate.year &&
-                                                    (widget.quarterlyServiceDate
-                                                                .month -
-                                                            pickedDate.month <
-                                                        3)) ||
-                                                widget.quarterlyServiceDate
-                                                        .year !=
-                                                    pickedDate.year) ||
-                                            !widget.isQuarterlyService)
+                                        if ((widget.isQuarterlyService &&
+                                            ((pickedDate.month -
+                                                        widget
+                                                            .quarterlyServiceDate
+                                                            .month)
+                                                    .abs() >
+                                                3)) || (!widget.isQuarterlyService &&
+                                            ((pickedDate.month -
+                                                        widget
+                                                            .quarterlyServiceDate
+                                                            .month)
+                                                    .abs() <=
+                                                2))
+                                                )
                                           FirebaseFirestore.instance
                                               .collection('objects')
                                               .doc(widget.id)
@@ -594,7 +596,6 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
                                           pickedDate = DateTime.now();
                                         });
                                       },
-                                      child: Text('Сохранить'),
                                     )
                                   ],
                                 )
