@@ -370,6 +370,20 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
                                               .update({
                                             'serviceDate': pickedDate,
                                           });
+                                        setState(() {
+                                          widget.serviceDate = pickedDate;
+                                        });
+
+                                        FirebaseFirestore.instance
+                                            .collection('history')
+                                            // .doc(widget.id)
+                                            // .collection('history')
+                                            .add({
+                                          'date': today,
+                                          'address': widget.address,
+                                          'type': 'Плановое ТО',
+                                          'serviceDate': widget.serviceDate,
+                                        });
 
                                         Navigator.of(context).pop();
                                         setState(() {
@@ -581,6 +595,22 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
                                               .update({
                                             'quarterlyServiceDate': pickedDate,
                                           });
+                                        setState(() {
+                                          widget.quarterlyServiceDate =
+                                              pickedDate;
+                                        });
+
+                                        FirebaseFirestore.instance
+                                            // .collection('objects')
+                                            // .doc(widget.id)
+                                            .collection('history')
+                                            .add({
+                                          'date': today,
+                                          'address': widget.address,
+                                          'type': 'Квартильное ТО',
+                                          'serviceDate':
+                                              widget.quarterlyServiceDate,
+                                        });
 
                                         Navigator.of(context).pop();
                                         setState(() {
