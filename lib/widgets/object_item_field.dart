@@ -82,8 +82,9 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
           'isJournal': false,
         });
 
-      if (today.month - widget.quarterlyServiceDate.month >= 3 ||
-          today.year != widget.quarterlyServiceDate.year)
+      if (widget.quarterlyServiceDate.year != pickedDate.year ||
+          DateFormat.QQQQ().format(widget.quarterlyServiceDate) !=
+              DateFormat.QQQQ().format(pickedDate))
         FirebaseFirestore.instance.collection('objects').doc(widget.id).update({
           'isQuarterlyService': false,
           'isAct': false,
@@ -93,6 +94,7 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
 //show service info dialog
     return GestureDetector(
       onTap: () {
+        print(DateFormat.QQQQ().format(widget.serviceDate));
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => EditObject(
                   id: widget.id,
@@ -341,10 +343,8 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
                                       onPressed: () {
                                         _pickDate();
                                       },
-                                      child: widget.serviceDate.year == 1900
-                                          ? Text('Дата:')
-                                          : Text(
-                                              'Дата: ${DateFormat.yMMMd('ru_RU').format(widget.quarterlyServiceDate)}'),
+                                      child: Text(
+                                          'Дата: ${DateFormat.yMMMd('ru_RU').format(pickedDate)}'),
                                     ),
                                     ElevatedButton(
                                       onPressed: () {
@@ -355,10 +355,7 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
                                             .update({
                                           'isMonthlyService':
                                               widget.isMonthlyService,
-                                          // 'isQuarterlyService':
-                                          //     widget.isQuarterlyService,
                                           'isJournal': widget.isJournal,
-                                          // 'isAct': widget.isAct,
                                         });
                                         if (((widget.serviceDate.year ==
                                                         pickedDate.year &&
@@ -487,7 +484,7 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
                                               widget.isQuarterlyService = value;
                                               if (!widget.isQuarterlyService)
                                                 widget.isAct = false;
-                                              widget.isJournal = false;
+                                              // widget.isJournal = false;
                                               if (widget.isQuarterlyService)
                                                 widget.isMonthlyService = true;
                                             });
@@ -528,9 +525,9 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
                                             setState(() {
                                               widget.isJournal = value;
                                               if (widget.isJournal)
-                                                widget.isQuarterlyService =
-                                                    true;
-                                              widget.isMonthlyService = true;
+                                                // widget.isQuarterlyService =
+                                                //     true;
+                                                widget.isMonthlyService = true;
                                             });
                                           }),
                                     ],
@@ -564,26 +561,20 @@ class _ObjectItemFieldState extends State<ObjectItemField> {
                                             .collection('objects')
                                             .doc(widget.id)
                                             .update({
+                                          'isMonthlyService':
+                                              widget.isMonthlyService,
                                           'isQuarterlyService':
                                               widget.isQuarterlyService,
                                           'isJournal': widget.isJournal,
                                           'isAct': widget.isAct,
                                         });
 
-                                        if ((widget.isQuarterlyService &&
-                                            ((pickedDate.month -
-                                                        widget
-                                                            .quarterlyServiceDate
-                                                            .month)
-                                                    .abs() >
-                                                3)) || (!widget.isQuarterlyService &&
-                                            ((pickedDate.month -
-                                                        widget
-                                                            .quarterlyServiceDate
-                                                            .month)
-                                                    .abs() <=
-                                                2))
-                                                )
+                                        if (widget.quarterlyServiceDate.year !=
+                                                pickedDate.year ||
+                                            DateFormat.QQQQ().format(widget
+                                                    .quarterlyServiceDate) !=
+                                                DateFormat.QQQQ()
+                                                    .format(pickedDate))
                                           FirebaseFirestore.instance
                                               .collection('objects')
                                               .doc(widget.id)
